@@ -9,21 +9,34 @@ using UnityEngine.UI;
 
 public class MenuUIHandler : MonoBehaviour
 {
-    public InputField nameInput;
-    public string name;
-    
-    public void NewPlayerName()
+    private string playerName;
+    private GameManager gameManager;
+
+    private void Start()
     {
-        name = nameInput.text;
-        GameManager.Instance.PlayerName = name;
+        gameManager = GameObject.FindObjectOfType<GameManager>().GetComponent<GameManager>();
+    }
+    public void NewPlayerName(string s)
+    {
+        playerName = s;
+        Debug.Log(playerName);
+        gameManager.SetName(playerName);
+
     }
     public void StartNew()
     {
         SceneManager.LoadScene(1);
     }
 
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void Exit()
     {
+        gameManager.SaveNewBestScore();
+
 #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
 #else
